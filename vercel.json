@@ -9,7 +9,7 @@
       }
     },
     {
-      "src": "client/**",
+      "src": "client",
       "use": "@vercel/static-build",
       "config": {
         "distDir": "../dist/public"
@@ -25,11 +25,5 @@
       "src": "/(.*)",
       "dest": "/client/$1"
     }
-  ],
-  "env": {
-    "MONGODB_URI": "@mongodb_uri",
-    "DATABASE_URL": "@database_url",
-    "SESSION_SECRET": "@session_secret",
-    "NODE_ENV": "production"
-  }
+  ]
 }
