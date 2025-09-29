@@ -1,3 +1,4 @@
 /.zencoder
 /node_modules
 .vercel
+.local/
