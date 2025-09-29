@@ -124,22 +124,22 @@ export default function PaymentPage() {
   return (
     <div className="min-h-screen bg-background p-4">
       <div className="max-w-4xl mx-auto">
-        <div className="flex items-center mb-8">
+        <div className="flex items-center mb-6 sm:mb-8">
           <Button 
             variant="ghost" 
             onClick={() => navigate("/menu")}
-            className="mr-4 p-2 hover:bg-muted rounded-lg transition-colors"
+            className="mr-3 sm:mr-4 p-2 hover:bg-muted rounded-lg transition-colors touch-manipulation"
             data-testid="button-back"
           >
-            <ArrowLeft className="text-secondary" />
+            <ArrowLeft className="text-secondary" size={20} />
           </Button>
-          <div>
-            <h1 className="text-3xl font-bold text-secondary" data-testid="payment-title">Payment</h1>
-            <p className="text-muted-foreground" data-testid="payment-subtitle">Review your order and complete payment</p>
+          <div className="flex-1 min-w-0">
+            <h1 className="text-2xl sm:text-3xl font-bold text-secondary truncate" data-testid="payment-title">Payment</h1>
+            <p className="text-sm sm:text-base text-muted-foreground" data-testid="payment-subtitle">Review your order and complete payment</p>
           </div>
         </div>
 
-        <div className="grid lg:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
           {/* Order Summary */}
           <Card>
             <CardContent className="p-6">
@@ -366,11 +366,11 @@ export default function PaymentPage() {
               <div className="space-y-3">
                 <Button 
                   onClick={handlePayment}
-                  className="w-full bg-primary text-primary-foreground py-4 rounded-lg font-semibold text-lg hover:bg-accent transition-colors"
+                  className="w-full bg-primary text-primary-foreground py-3 sm:py-4 rounded-lg font-semibold text-base sm:text-lg hover:bg-accent transition-colors touch-manipulation min-h-[48px]"
                   disabled={!paymentMethod || isProcessing}
                   data-testid="button-complete-payment"
                 >
-                  <Check className="mr-2" size={20} />
+                  <Check className="mr-2" size={18} />
                   {isProcessing ? "Processing..." : "Complete Payment"}
                 </Button>
 

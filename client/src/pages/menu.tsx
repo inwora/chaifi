@@ -4,6 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import { ShoppingCart, Plus, Minus, BarChart3, Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import MobileNav from "@/components/ui/mobile-nav";
 import type { MenuItem, CartItem } from "@shared/schema";
 
 export default function MenuPage() {
@@ -80,56 +81,36 @@ export default function MenuPage() {
   return (
     <div className="min-h-screen bg-background p-4">
       <div className="max-w-6xl mx-auto">
-        <div className="flex justify-between items-center mb-8">
-          <div>
-            <h1 className="text-3xl font-bold text-secondary" data-testid="menu-title">Menu</h1>
-            <p className="text-muted-foreground" data-testid="menu-subtitle">Select items to add to your order</p>
+        <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-6 sm:mb-8">
+          <div className="flex-1 min-w-0">
+            <h1 className="text-2xl sm:text-3xl font-bold text-secondary truncate" data-testid="menu-title">Menu</h1>
+            <p className="text-sm sm:text-base text-muted-foreground" data-testid="menu-subtitle">Select items to add to your order</p>
           </div>
-          <div className="flex gap-3">
-            <Button 
-              onClick={() => navigate("/search")}
-              variant="outline"
-              className="px-6 py-3 rounded-lg font-semibold hover:bg-secondary hover:text-secondary-foreground transition-colors"
-              data-testid="button-search"
-            >
-              <Search className="mr-2" size={20} />
-              Search
-            </Button>
-            <Button 
-              onClick={() => navigate("/dashboard")}
-              variant="outline"
-              className="px-6 py-3 rounded-lg font-semibold hover:bg-secondary hover:text-secondary-foreground transition-colors"
-              data-testid="button-dashboard"
-            >
-              <BarChart3 className="mr-2" size={20} />
-              Dashboard
-            </Button>
-            <Button 
-              onClick={goToPayment}
-              className="relative bg-primary text-primary-foreground px-6 py-3 rounded-lg font-semibold hover:bg-accent transition-colors"
-              disabled={cartCount === 0}
-              data-testid="button-cart"
-            >
-              <ShoppingCart className="mr-2" size={20} />
-              Cart
-              {cartCount > 0 && (
-                <Badge className="cart-badge absolute -top-2 -right-2 w-6 h-6 text-xs rounded-full flex items-center justify-center text-white" data-testid="cart-count">
-                  {cartCount}
-                </Badge>
-              )}
-            </Button>
+          <div className="flex items-center justify-between sm:justify-end">
+            <div className="sm:hidden">
+              <h2 className="text-lg font-semibold text-secondary">
+                {cartCount > 0 && `${cartCount} item${cartCount > 1 ? 's' : ''} in cart`}
+              </h2>
+            </div>
+            <MobileNav 
+              cartCount={cartCount}
+              onSearchClick={() => navigate("/search")}
+              onDashboardClick={() => navigate("/dashboard")}
+              onCartClick={goToPayment}
+              isCartDisabled={cartCount === 0}
+            />
           </div>
         </div>
 
         {/* Menu Categories */}
         <div className="mb-6">
-          <div className="flex space-x-4 overflow-x-auto pb-2">
+          <div className="flex space-x-3 overflow-x-auto pb-2 scrollbar-hide">
             {categories.map((category) => (
               <Button
                 key={category}
                 onClick={() => setSelectedCategory(category)}
                 variant={selectedCategory === category ? "default" : "secondary"}
-                className="whitespace-nowrap"
+                className="whitespace-nowrap text-xs sm:text-sm px-3 py-2 sm:px-4 sm:py-2 flex-shrink-0 min-w-max"
                 data-testid={`button-category-${category.toLowerCase().replace(' ', '-')}`}
               >
                 {category}
@@ -139,7 +120,7 @@ export default function MenuPage() {
         </div>
 
         {/* Menu Items Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
           {filteredItems.map((item) => (
             <div 
               key={item.id} 
@@ -149,18 +130,18 @@ export default function MenuPage() {
               <img 
                 src={item.image} 
                 alt={item.name} 
-                className="w-full h-48 object-cover"
+                className="w-full h-40 sm:h-48 object-cover"
                 data-testid={`img-menu-item-${item.id}`}
               />
-              <div className="p-4">
-                <h3 className="font-semibold text-secondary mb-1" data-testid={`text-item-name-${item.id}`}>
+              <div className="p-3 sm:p-4">
+                <h3 className="font-semibold text-secondary mb-1 text-sm sm:text-base line-clamp-1" data-testid={`text-item-name-${item.id}`}>
                   {item.name}
                 </h3>
-                <p className="text-muted-foreground text-sm mb-3" data-testid={`text-item-description-${item.id}`}>
+                <p className="text-muted-foreground text-xs sm:text-sm mb-3 line-clamp-2" data-testid={`text-item-description-${item.id}`}>
                   {item.description}
                 </p>
                 <div className="flex justify-between items-center">
-                  <span className="text-lg font-bold text-primary" data-testid={`text-item-price-${item.id}`}>
+                  <span className="text-base sm:text-lg font-bold text-primary" data-testid={`text-item-price-${item.id}`}>
                     ₹{item.price}
                   </span>
                   <div className="flex items-center gap-2">
@@ -169,15 +150,15 @@ export default function MenuPage() {
                         onClick={() => removeFromCart(item)}
                         size="sm"
                         variant="outline"
-                        className="w-8 h-8 rounded-full p-0 border-2"
+                        className="w-9 h-9 sm:w-8 sm:h-8 rounded-full p-0 border-2 touch-manipulation"
                         data-testid={`button-decrease-${item.id}`}
                       >
-                        <Minus size={14} />
+                        <Minus size={16} className="sm:size-14" />
                       </Button>
                     )}
                     {getItemQuantity(item.id) > 0 && (
                       <span 
-                        className="min-w-[2rem] text-center font-semibold text-primary"
+                        className="min-w-[2rem] text-center font-semibold text-primary text-sm sm:text-base"
                         data-testid={`text-quantity-${item.id}`}
                       >
                         {getItemQuantity(item.id)}
@@ -186,10 +167,10 @@ export default function MenuPage() {
                     <Button
                       onClick={() => addToCart(item)}
                       size="sm"
-                      className="bg-primary text-primary-foreground w-8 h-8 rounded-full hover:bg-accent transition-colors p-0"
+                      className="bg-primary text-primary-foreground w-9 h-9 sm:w-8 sm:h-8 rounded-full hover:bg-accent transition-colors p-0 touch-manipulation"
                       data-testid={`button-add-to-cart-${item.id}`}
                     >
-                      <Plus size={16} />
+                      <Plus size={18} className="sm:size-16" />
                     </Button>
                   </div>
                 </div>

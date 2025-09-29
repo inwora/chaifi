@@ -191,29 +191,62 @@ export default function DashboardPage() {
   return (
     <div className="min-h-screen bg-background p-4">
       <div className="max-w-7xl mx-auto">
-        <div className="flex justify-between items-center mb-8">
-          <div className="flex items-center gap-4">
+        <div className="flex flex-col gap-4 mb-6 sm:mb-8">
+          <div className="flex items-center justify-between">
             <Button 
               onClick={() => navigate("/menu")}
               variant="outline"
               size="sm"
-              className="px-4 py-2 rounded-lg font-semibold hover:bg-secondary hover:text-secondary-foreground transition-colors"
+              className="px-3 py-2 sm:px-4 rounded-lg font-medium hover:bg-secondary hover:text-secondary-foreground transition-colors touch-manipulation"
             >
-              <ArrowLeft className="mr-2" size={16} />
-              Back to Menu
+              <ArrowLeft className="mr-1 sm:mr-2" size={16} />
+              <span className="text-xs sm:text-sm">Back to Menu</span>
             </Button>
+            
+            <div className="flex space-x-2 sm:space-x-4">
+              <Button 
+                variant={selectedPeriod === "today" ? "default" : "secondary"}
+                onClick={() => setSelectedPeriod("today")}
+                size="sm"
+                className="text-xs sm:text-sm px-2 sm:px-4 py-1 sm:py-2"
+                data-testid="button-period-today"
+              >
+                Today
+              </Button>
+              <Button 
+                variant={selectedPeriod === "week" ? "default" : "secondary"}
+                onClick={() => setSelectedPeriod("week")}
+                size="sm"
+                className="text-xs sm:text-sm px-2 sm:px-4 py-1 sm:py-2"
+                data-testid="button-period-week"
+              >
+                Week
+              </Button>
+              <Button 
+                variant={selectedPeriod === "month" ? "default" : "secondary"}
+                onClick={() => setSelectedPeriod("month")}
+                size="sm"
+                className="text-xs sm:text-sm px-2 sm:px-4 py-1 sm:py-2"
+                data-testid="button-period-month"
+              >
+                Month
+              </Button>
+            </div>
+          </div>
            
-            <div>
-              <h1 className="text-3xl font-bold text-secondary" data-testid="dashboard-title">Dashboard</h1>
-              <p className="text-muted-foreground" data-testid="dashboard-subtitle">Transaction summaries and analytics</p>
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+            <div className="flex-1 min-w-0">
+              <h1 className="text-2xl sm:text-3xl font-bold text-secondary truncate" data-testid="dashboard-title">Dashboard</h1>
+              <p className="text-sm sm:text-base text-muted-foreground" data-testid="dashboard-subtitle">Transaction summaries and analytics</p>
             </div>
             
             {/* Clear Data Button */}
             <AlertDialog>
               <AlertDialogTrigger asChild>
-                <Button variant="outline" size="sm" className="text-red-600 border-red-200 hover:bg-red-50">
-                  <Trash2 className="w-4 h-4 mr-2" />
-                  Clear Data
+                <Button variant="outline" size="sm" className="text-red-600 border-red-200 hover:bg-red-50 text-xs sm:text-sm px-2 sm:px-4 py-1 sm:py-2 touch-manipulation">
+                  <Trash2 className="w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2" />
+                  <span className="hidden sm:inline">Clear Data</span>
+                  <span className="sm:hidden">Clear</span>
                 </Button>
               </AlertDialogTrigger>
               <AlertDialogContent>
@@ -245,46 +278,22 @@ export default function DashboardPage() {
               </AlertDialogContent>
             </AlertDialog>
           </div>
-          
-          <div className="flex space-x-4">
-            <Button 
-              variant={selectedPeriod === "today" ? "default" : "secondary"}
-              onClick={() => setSelectedPeriod("today")}
-              data-testid="button-period-today"
-            >
-              Today
-            </Button>
-            <Button 
-              variant={selectedPeriod === "week" ? "default" : "secondary"}
-              onClick={() => setSelectedPeriod("week")}
-              data-testid="button-period-week"
-            >
-              Week
-            </Button>
-            <Button 
-              variant={selectedPeriod === "month" ? "default" : "secondary"}
-              onClick={() => setSelectedPeriod("month")}
-              data-testid="button-period-month"
-            >
-              Month
-            </Button>
-          </div>
         </div>
 
         {/* Summary Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6 mb-6 sm:mb-8">
           <Card>
-            <CardContent className="p-6">
-              <div className="flex items-center justify-between mb-4">
-                <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center">
-                  <IndianRupee className="text-primary text-xl" />
+            <CardContent className="p-3 sm:p-6">
+              <div className="flex items-center justify-between mb-2 sm:mb-4">
+                <div className="w-8 h-8 sm:w-12 sm:h-12 bg-primary/10 rounded-lg flex items-center justify-center">
+                  <IndianRupee className="text-primary text-sm sm:text-xl" />
                 </div>
-                <span className="text-sm text-muted-foreground" data-testid="text-today-label">Today</span>
+                <span className="text-xs sm:text-sm text-muted-foreground" data-testid="text-today-label">Today</span>
               </div>
-              <div className="text-2xl font-bold text-secondary mb-1" data-testid="text-daily-total">
+              <div className="text-lg sm:text-2xl font-bold text-secondary mb-1 truncate" data-testid="text-daily-total">
                 ₹{todaySummary?.totalAmount || "0.00"}
               </div>
-              <div className="text-sm text-green-600" data-testid="text-daily-growth">+0% from yesterday</div>
+              <div className="text-xs sm:text-sm text-green-600" data-testid="text-daily-growth">+0% from yesterday</div>
             </CardContent>
           </Card>
 
