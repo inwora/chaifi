@@ -198,7 +198,8 @@ export class MemStorage implements IStorage {
       createdAt: now,
       billerName: insertTransaction.billerName || 'Sriram',
       extras: insertTransaction.extras || null,
-      splitPayment: insertTransaction.splitPayment || null
+      splitPayment: insertTransaction.splitPayment || null,
+      creditor: insertTransaction.creditor || null
     };
     this.transactions.set(id, transaction);
 
